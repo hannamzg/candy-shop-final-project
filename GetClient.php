@@ -53,6 +53,7 @@ if ($clientID !== null) {
             'title_page2' => $conn->real_escape_string($row['title_page2']),
             'title_page3' => $conn->real_escape_string($row['title_page3']),
             'description' => $conn->real_escape_string($row['description']),
+            'lang' => $conn->real_escape_string($row['lang']),
         ];
     } 
 

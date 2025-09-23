@@ -1,238 +1,433 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q&A Page</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons (optional) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Custom Styles */
-        #gradient {
-            position: relative;
-            background-image: url('https://as1.ftcdn.net/v2/jpg/02/14/09/82/1000_F_214098258_VC0lJWUY5DWjqsnHF8JgYCrGy84MLcfh.jpg');
-            width: 100%;
-            min-height: 250px;
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center center;
-            filter: brightness(95%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        /* Custom Styles */
-        .dropdown-toggle::after {
-            display: none; /* Hide the default caret */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .dropdown-toggle::before {
-            content: "\f0d7"; /* Font Awesome caret (or any other icon/character you prefer) */
-            font-family: "Font Awesome 5 Free"; /* Set the correct font family for the caret */
-            font-weight: 900; /* Make the caret bold */
-            margin-right: 10px; /* Space between the caret and the text */
-            margin-left: 10px;
-            display: inline-block; /* Make it behave like an inline element */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
         }
 
-        /* Ensure the dropdown button behaves properly */
-        .dropdown-toggle {
-            width: 100%; /* Make the button full width */
-            text-align: left; /* Align text to the left */
-            background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; /* Custom background */
-            color: black; /* Set text color to black */
-            border: 1px solid #333; /* Border color */
-            box-shadow: none; /* Remove shadow */
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .headerTextDiv {
+        .hero-section {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
             text-align: center;
-            background-color:  white; /* Darker background for header */
-            padding: 15px;
-            border-radius: 10px;
-            color: rgba(0, 0, 0, 0.7); /* White text for header */
-            margin: 20px auto;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        .dropdown-item {
+        .hero-section h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .faq-container {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .faq-item {
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e1e5e9;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            text-align: right;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
-            color: black; /* Change dropdown item text color to black */
-        }
-
-        .dropdown-item:hover,
-        .dropdown-item:active {
-            background-color: #333; /* Dark background on hover for dropdown items */
-            color: black; /* Keep text black on hover */
-        }
-
-        .dropdown-item:focus {
-            background-color: #333;
-        }
-
-        .dropdown-menu {
-            display: none;
-        }
-
-        .dropdown-menu.show {
-            display: block;
-        }
-
-        .question-item {
-            cursor: pointer;
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; /* Custom background */
-            border: 1px solid #333; /* Border color */
-            border-radius: 5px;
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: right;
+            justify-content: space-between;
             align-items: center;
-            color: black; /* Set text color to black */
+            direction: rtl;
         }
 
-        .question-item:hover {
-            background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; /* Same background on hover */
-            color: black; /* Ensure text stays black on hover */
+        .faq-question:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
         }
 
-        .card {
-            margin-top: 20px;
+        .faq-question.active {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
         }
 
-        .question-title {
-            font-size: 1.25rem;
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+            margin-left: 15px;
         }
 
-        .icon {
-            transition: transform 0.3s;
-        }
-
-        .icon.rotated {
+        .faq-icon.rotated {
             transform: rotate(180deg);
         }
 
-        /* Full Width Dropdown */
-        .dropdown-toggle {
-            width: 100%; /* Make the button full width */
-            text-align: left; /* Align text to the left */
-            background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; /* Custom background */
-            color: black; /* Set text color to black */
-            border: 1px solid #333; /* Border color */
-            box-shadow: none; /* Remove shadow */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: #fff;
         }
 
-        .dropdown-menu {
-            width: 100%; /* Make the dropdown menu full width */
-            left: 0; /* Align dropdown menu to the left */
-            top: 100%; /* Position dropdown below the button */
-            z-index: 1;
+        .faq-answer.show {
+            max-height: 200px;
         }
 
-        /* Ensure dropdown does not change on hover or active */
-        .dropdown-toggle:hover,
-        .dropdown-toggle:active {
-            background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; /* Same background */
-            color: black; /* Keep text black */
+        .faq-answer-content {
+            padding: 25px;
+            color: #555;
+            line-height: 1.6;
+            font-size: 1rem;
+            direction: rtl;
+            text-align: right;
         }
 
-        .dropdown-item:hover, .dropdown-item:active{
-            background-color: transparent !important;
-            color: black !important;
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
         }
 
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .empty-state p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e1e5e9;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: #fff;
+            transition: all 0.3s ease;
+            direction: rtl;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #667eea;
+            font-size: 1.2rem;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .page-container {
+                padding: 0 15px;
+            }
+
+            .hero-section {
+                padding: 30px 20px;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .faq-container {
+                padding: 20px;
+            }
+
+            .faq-question {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+
+            .faq-answer-content {
+                padding: 20px;
+            }
+
+            .stats-container {
+                gap: 15px;
+            }
+
+            .stat-item {
+                min-width: 100px;
+                padding: 15px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <?php require('GetClient.php');?>
 <body>
-    <!-- Header Section -->
-    <header class="page-header gradient" id="gradient"></header>
+    <div class="page-container">
+        <!-- Hero Section -->
+        <div class="hero-section fade-in">
+            <h1>
+                <?php
+                    if ($clientID == 1) {
+                        echo "اسئلة وأجوبة عن المسيحية";
+                    } else {
+                        echo "שאלות נפוצות";
+                    }
+                ?>
+            </h1>
+            <p>
+                <?php
+                    if ($clientID == 1) {
+                        echo "اكتشف إجابات الأسئلة الشائعة حول الإيمان المسيحي";
+                    } else {
+                        echo "גלה תשובות לשאלות הנפוצות על האמונה הנוצרית";
+                    }
+                ?>
+            </p>
+        </div>
 
-    <!-- Main Container -->
-    <div class="container" style='height: 100vh;'>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <!-- Header Text Div -->
-                <div class="headerTextDiv">
-                    <h1 class="headerText"> 
+        <!-- FAQ Container -->
+        <div class="faq-container fade-in">
+            <?php
+                require('connect.php');
+                $sql = "SELECT * FROM questions WHERE client_id = $clientID";
+                $result = $conn->query($sql);
+                $questionCount = $result->num_rows;
+            ?>
+
+            <!-- Stats Section -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number"><?= $questionCount ?></span>
+                    <div class="stat-label">
                         <?php
                             if ($clientID == 1) {
-                                echo "اسئلة وأجوبة عن المسيحية";
-                        
-                            }else{
-                                echo "שאלות נפוצות";
+                                echo "أسئلة متاحة";
+                            } else {
+                                echo "שאלות זמינות";
                             }
                         ?>
-                    </h1>
+                    </div>
                 </div>
-
-                <!-- List of Questions as Dropdowns -->
-                <div id="questions-list">
-                    <?php
-                        require('connect.php');
-                        $sql = "SELECT * FROM questions WHERE client_id = $clientID";
-                        $result = $conn->query($sql);
-
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $question_id = $row['id'];
-                                echo "<div class='dropdown'>
-                                        <ul class='dropdown-menu' aria-labelledby='dropdownMenuButton-{$question_id}' >
-                                            <li>
-                                                <a class='dropdown-item' href='#' style='text-align: end; background-color: white !important; display: block; overflow: hidden;'>
-                                                    <p style='margin: 0; line-height: 1.5; overflow: hidden; text-overflow: ellipsis; white-space: normal;'>
-                                                        " . htmlspecialchars($row['option1']) . "
-                                                    </p>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                        <button class='btn bg-dark dropdown-toggle question-item' type='button' id='dropdownMenuButton-{$question_id}' aria-expanded='false' style='direction: rtl;'>
-                                            <strong>" . htmlspecialchars($row['question_text']) . "</strong>
-                                        </button>
-                                      </div>";
+                <div class="stat-item">
+                    <span class="stat-number">
+                        <i class="fas fa-question-circle"></i>
+                    </span>
+                    <div class="stat-label">
+                        <?php
+                            if ($clientID == 1) {
+                                echo "مساعدة";
+                            } else {
+                                echo "עזרה";
                             }
-                        } else {
-                            echo "<p>No questions available.</p>";
-                        }
-                    ?>
+                        ?>
+                    </div>
                 </div>
+            </div>
 
+            <!-- Questions List -->
+            <div id="questions-list">
+                <?php
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $question_id = $row['id'];
+                            echo "<div class='faq-item'>
+                                    <button class='faq-question' onclick='toggleFAQ({$question_id})'>
+                                        <span>" . htmlspecialchars($row['question_text']) . "</span>
+                                        <i class='fas fa-chevron-down faq-icon' id='icon-{$question_id}'></i>
+                                    </button>
+                                    <div class='faq-answer' id='answer-{$question_id}'>
+                                        <div class='faq-answer-content'>
+                                            " . htmlspecialchars($row['option1']) . "
+                                        </div>
+                                    </div>
+                                  </div>";
+                        }
+                    } else {
+                        echo "<div class='empty-state'>
+                                <i class='fas fa-question-circle'></i>
+                                <h3>";
+                        if ($clientID == 1) {
+                            echo "لا توجد أسئلة متاحة حالياً";
+                        } else {
+                            echo "אין שאלות זמינות כרגע";
+                        }
+                        echo "</h3>
+                                <p>";
+                        if ($clientID == 1) {
+                            echo "يرجى المحاولة مرة أخرى لاحقاً";
+                        } else {
+                            echo "אנא נסה שוב מאוחר יותר";
+                        }
+                        echo "</p>
+                              </div>";
+                    }
+                ?>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        // Bootstrap dropdown JS functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            var dropdowns = document.querySelectorAll('.dropdown-toggle');
-            dropdowns.forEach(function (dropdown) {
-                dropdown.addEventListener('click', function (event) {
-                    var menu = this.previousElementSibling;
-                    if (menu.classList.contains('show')) {
-                        menu.classList.remove('show');
-                    } else {
-                        document.querySelectorAll('.dropdown-menu').forEach(function (openMenu) {
-                            openMenu.classList.remove('show');
-                        });
-                        menu.classList.add('show');
-                    }
-                });
-            });
-
-            // Automatically close the dropdown when clicking outside
-            document.addEventListener('click', function (e) {
-                if (!e.target.closest('.dropdown')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(function (menu) {
-                        menu.classList.remove('show');
-                    });
+        function toggleFAQ(questionId) {
+            const answer = document.getElementById('answer-' + questionId);
+            const icon = document.getElementById('icon-' + questionId);
+            const question = answer.previousElementSibling;
+            
+            // Close all other FAQs
+            document.querySelectorAll('.faq-answer').forEach(function(item) {
+                if (item.id !== 'answer-' + questionId) {
+                    item.classList.remove('show');
+                    item.previousElementSibling.classList.remove('active');
+                    item.previousElementSibling.querySelector('.faq-icon').classList.remove('rotated');
                 }
             });
+            
+            // Toggle current FAQ
+            if (answer.classList.contains('show')) {
+                answer.classList.remove('show');
+                question.classList.remove('active');
+                icon.classList.remove('rotated');
+            } else {
+                answer.classList.add('show');
+                question.classList.add('active');
+                icon.classList.add('rotated');
+            }
+        }
+
+        // Add smooth animations on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    item.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+
+        // Close FAQ when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.faq-item')) {
+                document.querySelectorAll('.faq-answer').forEach(function(answer) {
+                    answer.classList.remove('show');
+                    answer.previousElementSibling.classList.remove('active');
+                    answer.previousElementSibling.querySelector('.faq-icon').classList.remove('rotated');
+                });
+            }
         });
     </script>
 </body>
