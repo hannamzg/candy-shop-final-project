@@ -1,76 +1,201 @@
-    <?php
-      if ($clientID != 1) {
-        $DisplayNone = 'display:none;';
-        echo '<footer style="padding: 20px; background-color: #000; color: #ffffff; border-top: 1px solid #007bff; text-align: center;">
-                  <div>
-                      <h3>צור קשר</h3>
-                      <p>טלפון: <a href="tel:+0525119685" style="text-decoration: none !important; color: white !important;">0525119685</a></p>
-                      <p>אימייל: <a href="mailto:elimzghanna123@gmail.com" style="text-decoration: none !important; color: white !important;">elimzghanna123@gmail.com</a></p>
-                      <p>פייסבוק: <a href="https://www.facebook.com/elimzigit" target="_blank" style="text-decoration: none !important; color: white !important;">עמוד פייסבוק</a></p>
-                  </div>
-                  <div style="margin-top: 20px;max-width: 100%;">
-                      <h3 >מיקום שלנו</h3>
-                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3347.7724630538537!2d35.1682306!3d32.95701630000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151dcc61a08da46d%3A0xb9c18fc46c6841ad!2s166%2C%20Abu%20Snan!5e0!3m2!1sen!2sil!4v1729623918141!5m2!1sen!2sil" width="600" height="450" style="border:0; max-width:100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                  </div>
-                  <p style="color: #ffffff;">&copy; 2024 כל הזכויות שמורות</p>
-              </footer>
-              ';
-      }
-    ?>
-    <footer class="gradient" style="background: black; position: absolute;width: 100%; <?=$DisplayNone?> ">
-      <ul class="navFooter" style="<?=$DisplayNone?>">
-            <li>
-              <a href="index.php">الصفحه الرئيسيه</a>
-            </li>
-            <li>
-              <a href="church.php">شبيبة أبو سنان</a>
-              <img src="/img/CrossIcon.png" style="width: 25px;margin-right: 5px;">
-            </li>
-            <li>
-              <a href="/SundaySchool.php">اطفال مدرسة الاحد ابوسنان</a>
-              <img src="/img/children.png" style="width: 25px;margin-right: 5px;">
-            </li>
-            <li>
-              <a href="services.php">اسئلة وأجوبة</a>
-              <img src="/img/question.png" style="width: 25px;margin-right: 5px;">
-            </li>
-            <li>
-              <a href="gallery.php">صور</a> 
-              <img src="/img/IconiImage.png" style="width: 25px;margin-right: 5px;">
-            </li>
-            <li>
-              <a href="calender.php">برنامجنا الاسبوعي</a>
-              <img src="/img/calendar.png" style="width: 25px;margin-right: 5px;">
-            </li>
-        </ul>
-        <div class="container-fluid text-center">
-            <span>Made by <a href="">Hanna Mzeget</a></span>
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <!-- Church Info -->
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5>
+                    <?php if(isset($general_data['icon']) && !empty($general_data['icon'])): ?>
+                        <img src="church/uploads/<?php echo htmlspecialchars($general_data['icon']); ?>" alt="Logo" height="30" class="me-2">
+                    <?php else: ?>
+                        <i class="fas fa-church me-2"></i>
+                    <?php endif; ?>
+                    <?php echo isset($general_data['client_name']) ? htmlspecialchars($general_data['client_name']) : 'Church'; ?>
+                </h5>
+                <p class="mb-3">
+                    <?php echo isset($general_data['description']) ? htmlspecialchars($general_data['description']) : 'Welcome to our church community. We are dedicated to serving God and our community with love, faith, and compassion.'; ?>
+                </p>
+                
+                <!-- Social Links -->
+                <div class="social-links">
+                    <?php if(isset($general_data['facebook']) && !empty($general_data['facebook'])): ?>
+                        <a href="<?php echo htmlspecialchars($general_data['facebook']); ?>" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    <?php endif; ?>
+                    <a href="#" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <a href="index.php">
+                            <i class="fas fa-home me-2"></i>Home
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="about.php">
+                            <i class="fas fa-info-circle me-2"></i>About Us
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="gallery.php">
+                            <i class="fas fa-images me-2"></i>Gallery
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="news.php">
+                            <i class="fas fa-newspaper me-2"></i>News
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="contact.php">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Services</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-calendar-alt me-2"></i>Sunday Service
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-pray me-2"></i>Prayer Meetings
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-users me-2"></i>Bible Study
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-child me-2"></i>Youth Programs
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-heart me-2"></i>Community Outreach
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Contact Info</h5>
+                <div class="contact-info">
+                    <?php if(isset($general_data['phone']) && !empty($general_data['phone'])): ?>
+                        <div class="mb-3">
+                            <i class="fas fa-phone me-2"></i>
+                            <a href="tel:<?php echo htmlspecialchars($general_data['phone']); ?>">
+                                <?php echo htmlspecialchars($general_data['phone']); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <div class="mb-3">
+                        <i class="fas fa-envelope me-2"></i>
+                        <a href="mailto:info@church.com">info@church.com</a>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        <span>123 Church Street<br>City, State 12345</span>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <i class="fas fa-clock me-2"></i>
+                        <div>
+                            <div>Sunday: 9:00 AM - 12:00 PM</div>
+                            <div>Wednesday: 7:00 PM - 8:30 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
-    <style>
-        .navFooter{
-            direction: rtl; 
-            display: flex; 
-            justify-content:center;
-            flex-wrap: wrap; 
-            gap:10px;
-            width:100%;
+
+        <!-- Bottom Bar -->
+        <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">
+                    &copy; <?php echo date('Y'); ?> <?php echo isset($general_data['client_name']) ? htmlspecialchars($general_data['client_name']) : 'Church'; ?>. All rights reserved.
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p class="mb-0">
+                    Made with <i class="fas fa-heart text-danger"></i> for our community
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Add animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements for animation
+    document.addEventListener('DOMContentLoaded', function() {
+        const animateElements = document.querySelectorAll('.card, .gallery-item, .section-title');
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+            navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+        } else {
+            navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.05)';
         }
-        
-        .navFooter li{
-            display: flex;
-            justify-content:center;
-            gap:5px;
-            background:white;
-            padding:5px;
-            border-radius:5px;
-            width:100%;
-            max-width:250px;
-        }
-        
-        .navFooter li a{
-            color:black;
-        }
-    </style>
-  </body>
+    });
+</script>
+
+</body>
 </html>
