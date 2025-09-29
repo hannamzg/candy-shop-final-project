@@ -12,7 +12,7 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
 include '../GetClient.php';
 
 // Initialize variables for form values
-$client_name = $facebook = $icon = $background_img1 = $background_img2 = $background_img3 = $description = $title_page2 = $title_page3 = "";
+$client_name = $phone = $email = $facebook = $icon = $background_img1 = $background_img2 = $background_img3 = $description = $title_page2 = $title_page3 = "";
 
 // Fetch existing data if ClientID is provided
 $sql = "SELECT * FROM general_elements WHERE ClientID = $clientID";
@@ -21,6 +21,8 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $client_name = $row['client_name'];
+    $phone = $row['phone'];
+    $email = $row['email'];
     $facebook = $row['facebook'];
     $icon = $row['icon'];
     $background_img1 = $row['background_img1'];
@@ -53,6 +55,8 @@ function uploadFile($fileInputName, $existingFile, $timestamp) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form values and escape them
     $client_name = $conn->real_escape_string($_POST['client_name']);
+    $phone = $conn->real_escape_string($_POST['phone']);
+    $email = $conn->real_escape_string($_POST['email']);
     $facebook = $conn->real_escape_string($_POST['facebook']);
     $description = $conn->real_escape_string($_POST['description']);
     $title_page2 = $conn->real_escape_string($_POST['title_page2']); // New field
@@ -70,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if record exists to determine insert or update
     if ($result->num_rows > 0) {
         // Update the database
-        $sql = "UPDATE general_elements SET client_name = '$client_name', facebook = '$facebook', 
+        $sql = "UPDATE general_elements SET client_name = '$client_name', phone = '$phone', email = '$email', facebook = '$facebook', 
                 icon = '$icon_new', background_img1 = '$background_img1_new', 
                 background_img2 = '$background_img2_new', background_img3 = '$background_img3_new', 
                 description = '$description', title_page2 = '$title_page2', title_page3 = '$title_page3' 
@@ -78,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $action = "updated";
     } else {
         // Insert a new record
-        $sql = "INSERT INTO general_elements (ClientID, client_name, facebook, icon, 
+        $sql = "INSERT INTO general_elements (ClientID, client_name, phone, email, facebook, icon, 
                 background_img1, background_img2, background_img3, description, title_page2, title_page3) 
-                VALUES ($clientID, '$client_name', '$facebook', '$icon_new', 
+                VALUES ($clientID, '$client_name', '$phone', '$email', '$facebook', '$icon_new', 
                 '$background_img1_new', '$background_img2_new', '$background_img3_new', '$description', 
                 '$title_page2', '$title_page3')";
         $action = "inserted";
@@ -381,6 +385,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="form-group">
                             <label for="client_name">Church Name *</label>
                             <input type="text" name="client_name" value="<?php echo htmlspecialchars($client_name); ?>" required placeholder="Enter your church name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" name="phone" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Enter phone number">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Enter email address">
                         </div>
 
                         <div class="form-group">

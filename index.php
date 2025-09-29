@@ -524,10 +524,14 @@ document.addEventListener('DOMContentLoaded', function() {
                             </a>
                         </div>
                     <?php endif; ?>
-                    <div class="mb-2">
-                        <i class="fas fa-envelope me-2"></i>
-                        <a href="mailto:info@church.com" class="text-white">info@church.com</a>
-                    </div>
+                    <?php if(isset($clientInfo['email']) && !empty($clientInfo['email'])): ?>
+                        <div class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:<?php echo htmlspecialchars($clientInfo['email']); ?>" class="text-white">
+                                <?php echo htmlspecialchars($clientInfo['email']); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <a href="contact.php" class="btn btn-light btn-lg">
                     <i class="fas fa-envelope me-2"></i>Get In Touch

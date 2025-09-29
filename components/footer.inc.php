@@ -82,10 +82,14 @@
                         </div>
                     <?php endif; ?>
                     
-                    <div class="mb-3">
-                        <i class="fas fa-envelope me-2"></i>
-                        <a href="mailto:info@church.com">info@church.com</a>
-                    </div>
+                    <?php if(isset($general_data['email']) && !empty($general_data['email'])): ?>
+                        <div class="mb-3">
+                            <i class="fas fa-envelope me-2"></i>
+                            <a href="mailto:<?php echo htmlspecialchars($general_data['email']); ?>">
+                                <?php echo htmlspecialchars($general_data['email']); ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
                     
                     <div class="mb-3">
                         <i class="fas fa-map-marker-alt me-2"></i>

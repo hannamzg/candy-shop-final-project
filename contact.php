@@ -185,7 +185,15 @@ if ($_POST) {
                         </div>
                         <div class="contact-details">
                             <h6>Email</h6>
-                            <p><a href="mailto:info@church.com">info@church.com</a></p>
+                            <p>
+                                <?php if(isset($general_data['email']) && !empty($general_data['email'])): ?>
+                                    <a href="mailto:<?php echo htmlspecialchars($general_data['email']); ?>">
+                                        <?php echo htmlspecialchars($general_data['email']); ?>
+                                    </a>
+                                <?php else: ?>
+                                    <a href="mailto:info@church.com">info@church.com</a>
+                                <?php endif; ?>
+                            </p>
                         </div>
                     </div>
                     
