@@ -20,7 +20,7 @@ while($row = $content_result->fetch_assoc()) {
 <section class="page-header">
     <div class="container">
         <h1><?php echo isset($page_data['pageName']) ? htmlspecialchars($page_data['pageName']) : 'About Us'; ?></h1>
-        <p>Learn more about our church community, mission, and values</p>
+        <p>Learn more about as</p>
     </div>
 </section>
 
@@ -138,64 +138,6 @@ while($row = $content_result->fetch_assoc()) {
     </div>
 </section>
 
-<!-- Leadership Section -->
-<section class="content-section bg-light">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="section-title">Our Leadership</h2>
-                <p class="section-subtitle">Meet the dedicated leaders who guide our church community</p>
-            </div>
-        </div>
-        
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="leader-avatar mb-3">
-                            <i class="fas fa-user-circle fa-5x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Pastor John Smith</h5>
-                        <p class="text-muted">Senior Pastor</p>
-                        <p class="card-text">
-                            Leading our congregation with wisdom and compassion, Pastor John has been serving our community for over 10 years.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="leader-avatar mb-3">
-                            <i class="fas fa-user-circle fa-5x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Sarah Johnson</h5>
-                        <p class="text-muted">Youth Minister</p>
-                        <p class="card-text">
-                            Passionate about youth ministry, Sarah leads our young people in growing their faith and building community.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <div class="leader-avatar mb-3">
-                            <i class="fas fa-user-circle fa-5x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Michael Brown</h5>
-                        <p class="text-muted">Music Director</p>
-                        <p class="card-text">
-                            Leading our worship through music, Michael helps create meaningful worship experiences for our congregation.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Call to Action -->
 <section class="content-section bg-primary text-white">
