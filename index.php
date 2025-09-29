@@ -158,42 +158,54 @@ include('components/navbar.inc.php');
             </div>
         </div>
         
-        <div class="row g-4">
-            <?php
-            // Get gallery images from mainsilderimg table
-            $gallery_query = "SELECT * FROM mainsilderimg WHERE page = 2 ORDER BY created_at DESC LIMIT 6";
-            $gallery_result = $conn->query($gallery_query);
-            
-            if($gallery_result && $gallery_result->num_rows > 0):
-                while($gallery_item = $gallery_result->fetch_assoc()):
-            ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="gallery-item">
-                        <img src="church/uploads/<?php echo htmlspecialchars($gallery_item['img']); ?>" alt="Gallery Image" class="img-fluid">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-search-plus"></i>
+        <!-- Swiper Gallery -->
+        <div class="gallery-swiper-container">
+            <div class="swiper gallery-swiper">
+                <div class="swiper-wrapper">
+                    <?php
+                    // Get gallery images from mainsilderimg table
+                    $gallery_query = "SELECT * FROM mainsilderimg WHERE page = 2 ORDER BY created_at DESC LIMIT 10";
+                    $gallery_result = $conn->query($gallery_query);
+                    
+                    if($gallery_result && $gallery_result->num_rows > 0):
+                        while($gallery_item = $gallery_result->fetch_assoc()):
+                    ?>
+                        <div class="swiper-slide">
+                            <div class="gallery-slide-item">
+                                <img src="church/uploads/<?php echo htmlspecialchars($gallery_item['img']); ?>" alt="Gallery Image" class="img-fluid">
+                                <div class="gallery-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            <?php 
-                endwhile;
-            else:
-                // Default gallery images if no database images
-                $default_images = ['img/OIG1.jpg', 'img/OIG2.84xOLuE.jpg', 'img/Cross-Background.jpg'];
-                foreach($default_images as $index => $img):
-            ?>
-                <div class="col-lg-4 col-md-6">
-                    <div class="gallery-item">
-                        <img src="<?php echo $img; ?>" alt="Gallery Image" class="img-fluid">
-                        <div class="gallery-overlay">
-                            <i class="fas fa-search-plus"></i>
+                    <?php 
+                        endwhile;
+                    else:
+                        // Default gallery images if no database images
+                        $default_images = ['img/OIG1.jpg', 'img/OIG2.84xOLuE.jpg', 'img/Cross-Background.jpg'];
+                        foreach($default_images as $index => $img):
+                    ?>
+                        <div class="swiper-slide">
+                            <div class="gallery-slide-item">
+                                <img src="<?php echo $img; ?>" alt="Gallery Image" class="img-fluid">
+                                <div class="gallery-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    <?php 
+                        endforeach;
+                    endif;
+                    ?>
                 </div>
-            <?php 
-                endforeach;
-            endif;
-            ?>
+                
+                <!-- Navigation buttons -->
+                <div class="swiper-button-next gallery-nav-next"></div>
+                <div class="swiper-button-prev gallery-nav-prev"></div>
+                
+                <!-- Pagination -->
+                <div class="swiper-pagination gallery-pagination"></div>
+            </div>
         </div>
         
         <div class="text-center mt-4">
@@ -203,6 +215,206 @@ include('components/navbar.inc.php');
         </div>
     </div>
 </section>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<style>
+.gallery-swiper-container {
+    margin: 30px 0;
+    padding: 0 20px;
+}
+
+.gallery-swiper {
+    width: 100%;
+    height: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-slide-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.gallery-slide-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-slide-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 15px;
+}
+
+.gallery-slide-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay i {
+    color: white;
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.gallery-slide-item:hover .gallery-overlay i {
+    transform: scale(1.2);
+}
+
+/* Navigation buttons */
+.gallery-nav-next,
+.gallery-nav-prev {
+    color: #667eea !important;
+    background: rgba(255, 255, 255, 0.9);
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.gallery-nav-next:hover,
+.gallery-nav-prev:hover {
+    background: #667eea;
+    color: white !important;
+    transform: scale(1.1);
+}
+
+.gallery-nav-next:after,
+.gallery-nav-prev:after {
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+/* Pagination */
+.gallery-pagination {
+    bottom: 20px !important;
+}
+
+.gallery-pagination .swiper-pagination-bullet {
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    width: 12px;
+    height: 12px;
+    margin: 0 6px;
+    transition: all 0.3s ease;
+}
+
+.gallery-pagination .swiper-pagination-bullet-active {
+    background: #667eea;
+    transform: scale(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gallery-swiper {
+        height: 300px;
+    }
+    
+    .gallery-swiper-container {
+        padding: 0 10px;
+    }
+    
+    .gallery-nav-next,
+    .gallery-nav-prev {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .gallery-nav-next:after,
+    .gallery-nav-prev:after {
+        font-size: 14px !important;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Swiper
+    const gallerySwiper = new Swiper('.gallery-swiper', {
+        // Optional parameters
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        speed: 800,
+        
+        // Responsive breakpoints
+        breakpoints: {
+            320: {
+                slidesPerView: 1,
+                spaceBetween: 20
+            },
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 30
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 30
+            },
+            1024: {
+                slidesPerView: 4,
+                spaceBetween: 30
+            }
+        },
+        
+        // Navigation arrows
+        navigation: {
+            nextEl: '.gallery-nav-next',
+            prevEl: '.gallery-nav-prev',
+        },
+        
+        // Pagination
+        pagination: {
+            el: '.gallery-pagination',
+            clickable: true,
+        },
+        
+        // Effect
+        effect: 'slide',
+        
+        // Grab cursor
+        grabCursor: true,
+    });
+    
+    // Pause autoplay on hover
+    const swiperContainer = document.querySelector('.gallery-swiper');
+    swiperContainer.addEventListener('mouseenter', function() {
+        gallerySwiper.autoplay.stop();
+    });
+    
+    swiperContainer.addEventListener('mouseleave', function() {
+        gallerySwiper.autoplay.start();
+    });
+});
+</script>
 
 <!-- Contact CTA Section -->
 <section class="content-section bg-primary text-white">
