@@ -36,43 +36,56 @@ if (isset($_POST['delete_content'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_image'])) {
     $targetDir = '../church/uploads/';
 
+    // Create directory if it doesn't exist
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0755, true);
     }
 
-    $targetFile = $targetDir . basename($_FILES["photo"]["name"]);
-    $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
-
     if (!empty($_FILES["photo"]["name"])) {
+        // Generate unique filename
+        $originalName = basename($_FILES["photo"]["name"]);
+        $imageFileType = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        $uniqueName = time() . '_' . uniqid() . '.' . $imageFileType;
+        $targetFile = $targetDir . $uniqueName;
+
+        // Check if file is an image
         $check = getimagesize($_FILES["photo"]["tmp_name"]);
-        if ($check === false) {
-            $upload_error = 'Error: File is not an image.';
-        } else {
-            if ($_FILES["photo"]["size"] > 5000000) {
-                $upload_error = 'Error: Sorry, your file is too large. Maximum size is 5MB.';
-            } else {
+        if ($check !== false) {
+            // Check file size (5MB limit)
+            if ($_FILES["photo"]["size"] <= 5000000) {
+                // Check file extension
                 $allowedExtensions = array("jpg", "jpeg", "png", "gif", "webp");
-                if (!in_array($imageFileType, $allowedExtensions)) {
-                    $upload_error = 'Error: Sorry, only JPG, JPEG, PNG, GIF, and WebP files are allowed.';
-                } else {
+                if (in_array($imageFileType, $allowedExtensions)) {
+                    // Try to move uploaded file
                     if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
-                        $photoName = basename($_FILES["photo"]["name"]);
                         $pageID = $conn->real_escape_string($_POST['page']);
 
-                        $sql = "INSERT INTO `mainsilderimg` (`img`,`page`,`client_id`) VALUES ('$photoName','$pageID','$clientID')";
+                        // Insert into database
+                        $sql = "INSERT INTO `mainsilderimg` (`img`, `page`, `client_id`) VALUES ('$uniqueName', '$pageID', '$clientID')";
                         if ($conn->query($sql) === TRUE) {
                             $upload_success = true;
                         } else {
-                            $upload_error = 'Error: ' . $conn->error;
+                            // If database insert fails, delete the uploaded file
+                            unlink($targetFile);
+                            $upload_error = 'Error inserting into database: ' . $conn->error;
                         }
                     } else {
-                        $upload_error = 'Error: Unable to move the uploaded file. Check directory permissions.';
+                        $upload_error = 'Error: Unable to move the uploaded file.';
                     }
+                } else {
+                    $upload_error = 'Error: Only JPG, JPEG, PNG, GIF, and WebP files are allowed.';
                 }
+            } else {
+                $upload_error = 'Error: File is too large. Maximum size is 5MB.';
             }
+        } else {
+            $upload_error = 'Error: File is not an image.';
         }
+    } else {
+        $upload_error = 'Error: No file selected.';
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -493,48 +506,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_image'])) {
                     </div>
                 <?php endif; ?>
 
-                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data" id="uploadForm">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Select Image *</label>
-                        <div class="file-upload-area" id="fileUploadArea">
-                            <input type="file" name="photo" accept="image/*" required id="fileInput">
-                            <div class="upload-icon">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                            </div>
-                            <div class="upload-text">Click to browse or drag & drop</div>
-                            <div class="upload-hint">JPG, PNG, GIF, WebP (Max 5MB)</div>
-                        </div>
-                        <div class="preview-container" id="previewContainer" style="display: none;">
-                            <img id="previewImage" class="preview-image" alt="Preview">
-                        </div>
+                        <input type="file" name="photo" accept="image/*" required class="form-control" style="padding: 10px; border: 2px dashed #e1e5e9; border-radius: 8px; background: #f8f9fa;">
                     </div>
 
                     <div class="form-group">
                         <label for="page">Assign to Page *</label>
-                        <select name="page" id="page" required>
+                        <select name="page" required class="form-control">
                             <option value="">Choose a page...</option>
-                            <option value="1">Homepage Slider</option>
+                            <option value="2">Gallery Page</option>
                             <?php
-                            $sql_content = "SELECT * FROM `content` WHERE pageID = 8 AND client_id = $clientID";
+                            // Get additional content pages
+                            $sql_content = "SELECT * FROM `content` WHERE client_id = $clientID GROUP BY pageID";
                             $result_content = $conn->query($sql_content);
-                            while ($row = $result_content->fetch_assoc()) {
-                                echo '<option value="'.$row['id'].'">'.$row['title'].'</option>';
+                            if ($result_content && $result_content->num_rows > 0) {
+                                while ($row = $result_content->fetch_assoc()) {
+                                    echo '<option value="'.$row['pageID'].'">Content Page '.$row['pageID'].'</option>';
+                                }
                             }
                             
-                            $sql_content = "SELECT * FROM `classpage` WHERE client_id = $clientID";
-                            $result_content = $conn->query($sql_content);
-                            while ($row = $result_content->fetch_assoc()) {
-                                echo '<option value="'.$row['id'].'">'.$row['title'].'</option>';
+                            // Get class pages
+                            $sql_class = "SELECT * FROM `classpage` WHERE client_id = $clientID";
+                            $result_class = $conn->query($sql_class);
+                            if ($result_class && $result_class->num_rows > 0) {
+                                while ($row = $result_class->fetch_assoc()) {
+                                    echo '<option value="class_'.$row['id'].'">Class: '.htmlspecialchars($row['title']).'</option>';
+                                }
                             }
                             ?>
                         </select>
                     </div>
 
-                    <button type="submit" name="upload_image" class="btn btn-primary" id="uploadBtn">
+                    <button type="submit" name="upload_image" class="btn btn-primary">
                         <i class="fas fa-upload"></i>
                         Upload Image
                     </button>
                 </form>
+                
             </div>
 
             <div class="gallery-container">
@@ -553,12 +563,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_image'])) {
                         while ($row = $result_content->fetch_assoc()) {
                             $image_count++;
                             echo '<div class="image-card">';
-                            echo '<img src="/church/uploads/' . htmlspecialchars($row["img"]) . '" class="image-preview" alt="Slider image" loading="lazy">';
+                            echo '<img src="../church/uploads/' . htmlspecialchars($row["img"]) . '" class="image-preview" alt="Slider image" loading="lazy">';
                             echo '<div class="image-info">';
                             echo '<div class="image-name">' . htmlspecialchars($row["img"]) . '</div>';
                             echo '<div class="image-meta">Page ID: ' . htmlspecialchars($row["page"]) . '</div>';
                             echo '<div class="image-actions">';
-                            echo '<a href="/church/uploads/' . htmlspecialchars($row["img"]) . '" target="_blank" class="btn btn-info btn-sm">';
+                            echo '<a href="../church/uploads/' . htmlspecialchars($row["img"]) . '" target="_blank" class="btn btn-info btn-sm">';
                             echo '<i class="fas fa-eye"></i> View';
                             echo '</a>';
                             echo '<form action="' . htmlspecialchars($_SERVER["PHP_SELF"]) . '" method="post" style="display: inline; flex: 1;">';
@@ -588,99 +598,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['upload_image'])) {
     <script>
         // Update image count
         document.getElementById('imageCount').textContent = '<?php echo $image_count; ?> images';
-
-        // File upload handling
-        const fileUploadArea = document.getElementById('fileUploadArea');
-        const fileInput = document.getElementById('fileInput');
-        const previewContainer = document.getElementById('previewContainer');
-        const previewImage = document.getElementById('previewImage');
-        const uploadBtn = document.getElementById('uploadBtn');
-
-        // Drag and drop functionality
-        fileUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.add('dragover');
-        });
-
-        fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.classList.remove('dragover');
-        });
-
-        fileUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.remove('dragover');
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                handleFileSelect(files[0]);
-            }
-        });
-
-        // File input change
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleFileSelect(e.target.files[0]);
-            }
-        });
-
-        function handleFileSelect(file) {
-            // Validate file type
-            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-            if (!allowedTypes.includes(file.type)) {
-                alert('Please select a valid image file (JPG, PNG, GIF, WebP)');
-                return;
-            }
-
-            // Validate file size (5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                alert('File size must be less than 5MB');
-                return;
-            }
-
-            // Show preview
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                previewImage.src = e.target.result;
-                previewContainer.style.display = 'block';
-                fileUploadArea.style.display = 'none';
-            };
-            reader.readAsDataURL(file);
-
-            // Update upload area text
-            fileUploadArea.querySelector('.upload-text').textContent = file.name;
-        }
-
-        // Reset preview when clicking upload area
-        fileUploadArea.addEventListener('click', () => {
-            if (previewContainer.style.display === 'block') {
-                previewContainer.style.display = 'none';
-                fileUploadArea.style.display = 'block';
-                fileInput.value = '';
-                fileUploadArea.querySelector('.upload-text').textContent = 'Click to browse or drag & drop';
-            }
-        });
-
-        // Form validation
-        document.getElementById('uploadForm').addEventListener('submit', function(e) {
-            const fileInput = document.getElementById('fileInput');
-            const pageSelect = document.getElementById('page');
-            
-            if (!fileInput.files.length) {
-                e.preventDefault();
-                alert('Please select an image file.');
-                return;
-            }
-            
-            if (!pageSelect.value) {
-                e.preventDefault();
-                alert('Please select a page.');
-                return;
-            }
-
-            // Show loading state
-            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
-            uploadBtn.disabled = true;
-        });
 
         // Auto-hide alerts after 5 seconds
         setTimeout(() => {
