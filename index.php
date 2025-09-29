@@ -330,6 +330,28 @@ include('components/navbar.inc.php');
     transform: scale(1.2);
 }
 
+/* Facebook Section Styles */
+.facebook-embed-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.facebook-iframe-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    background: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.facebook-iframe-wrapper iframe {
+    max-width: 100%;
+    height: auto;
+    min-height: 400px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .gallery-swiper {
@@ -349,6 +371,16 @@ include('components/navbar.inc.php');
     .gallery-nav-next:after,
     .gallery-nav-prev:after {
         font-size: 14px !important;
+    }
+    
+    .facebook-iframe-wrapper {
+        padding: 10px;
+    }
+    
+    .facebook-iframe-wrapper iframe {
+        width: 100% !important;
+        height: 400px !important;
+        min-height: 400px !important;
     }
 }
 </style>
@@ -416,6 +448,63 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<!-- Facebook Section -->
+<?php if(isset($clientInfo['facebook']) && !empty($clientInfo['facebook'])): ?>
+<section class="content-section bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="section-title">Follow Us on Facebook</h2>
+                <p class="section-subtitle">Stay connected with our community and latest updates</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="facebook-embed-container">
+                    <?php
+                    // Extract Facebook page URL and create embed URL
+                    $facebook_url = $clientInfo['facebook'];
+                    
+                    // Convert Facebook page URL to embed format
+                    if (strpos($facebook_url, 'facebook.com/') !== false) {
+                        // Extract page name from URL
+                        $page_name = '';
+                        if (preg_match('/facebook\.com\/([^\/\?]+)/', $facebook_url, $matches)) {
+                            $page_name = $matches[1];
+                        }
+                        
+                        if (!empty($page_name)) {
+                            $embed_url = "https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2F" . urlencode($page_name) . "&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId";
+                    ?>
+                        <div class="facebook-iframe-wrapper">
+                            <iframe src="<?php echo $embed_url; ?>" 
+                                    width="500" 
+                                    height="500" 
+                                    style="border:none;overflow:hidden;border-radius:15px;box-shadow: 0 10px 30px rgba(0,0,0,0.1);" 
+                                    scrolling="no" 
+                                    frameborder="0" 
+                                    allowfullscreen="true" 
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                            </iframe>
+                        </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                    
+                    <div class="text-center mt-4">
+                        <a href="<?php echo htmlspecialchars($facebook_url); ?>" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-facebook-f me-2"></i>Visit Our Facebook Page
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<?php endif; ?>
+
 <!-- Contact CTA Section -->
 <section class="content-section bg-primary text-white">
     <div class="container">
@@ -427,11 +516,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     there's a place for you here.
                 </p>
                 <div class="contact-info mb-4">
-                    <?php if(isset($general_data['phone']) && !empty($general_data['phone'])): ?>
+                    <?php if(isset($clientInfo['phone']) && !empty($clientInfo['phone'])): ?>
                         <div class="mb-2">
                             <i class="fas fa-phone me-2"></i>
-                            <a href="tel:<?php echo htmlspecialchars($general_data['phone']); ?>" class="text-white">
-                                <?php echo htmlspecialchars($general_data['phone']); ?>
+                            <a href="tel:<?php echo htmlspecialchars($clientInfo['phone']); ?>" class="text-white">
+                                <?php echo htmlspecialchars($clientInfo['phone']); ?>
                             </a>
                         </div>
                     <?php endif; ?>
