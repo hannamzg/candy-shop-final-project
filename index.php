@@ -1,6 +1,9 @@
-<?php require('components/head.inc.php'); ?>
-<?php include('components/navbar.inc.php'); ?>
-
+<?php 
+require('connect.php');
+require('GetClient.php');
+require('components/head.inc.php'); 
+include('components/navbar.inc.php'); 
+?>
 <!-- Hero Section -->
 <section class="hero-section">
     <div class="container">
@@ -41,62 +44,51 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2 class="section-title">Our Services</h2>
-                <p class="section-subtitle">Join us for worship, fellowship, and spiritual growth</p>
+                <h2 class="section-title">Our categories</h2>
             </div>
         </div>
         
         <div class="row g-4">
-            <!-- Sunday Service -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-church fa-3x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Sunday Service</h5>
-                        <p class="card-text">Join us every Sunday for worship, prayer, and fellowship. Experience the joy of community worship.</p>
-                        <div class="service-time">
-                            <i class="fas fa-clock me-2"></i>
-                            <strong>9:00 AM - 12:00 PM</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bible Study -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-bible fa-3x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Bible Study</h5>
-                        <p class="card-text">Deepen your understanding of God's word through our weekly Bible study sessions.</p>
-                        <div class="service-time">
-                            <i class="fas fa-clock me-2"></i>
-                            <strong>Wednesday 7:00 PM</strong>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Youth Programs -->
-            <div class="col-lg-4 col-md-6">
-                <div class="card h-100 text-center">
-                    <div class="card-body">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-child fa-3x text-primary"></i>
-                        </div>
-                        <h5 class="card-title">Youth Programs</h5>
-                        <p class="card-text">Engaging programs for children and youth to grow in faith and build lasting friendships.</p>
-                        <div class="service-time">
-                            <i class="fas fa-clock me-2"></i>
-                            <strong>Saturday 10:00 AM</strong>
+            <?php
+            // Get classes from database
+            $classes_query = "SELECT * FROM class WHERE client_id = $clientID ORDER BY id ASC LIMIT 6";
+            $classes_result = $conn->query($classes_query);
+            
+            if($classes_result && $classes_result->num_rows > 0):
+                while($class_item = $classes_result->fetch_assoc()):
+                    // Get count of items in this class
+                    $count_query = "SELECT COUNT(*) as count FROM classpage WHERE ClassID = " . $class_item['id'];
+                    $count_result = $conn->query($count_query);
+                    $count = $count_result ? $count_result->fetch_assoc()['count'] : 0;
+            ?>
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 text-center service-card">
+                        <div class="card-body">
+                            <div class="feature-icon mb-3">
+                                <i class="fas fa-star fa-3x text-primary"></i>
+                            </div>
+                            <h5 class="card-title"><?php echo htmlspecialchars($class_item['title']); ?></h5>
+                            <p class="card-text">
+                                Explore our <?php echo htmlspecialchars($class_item['title']); ?> programs and activities. 
+                                Join us for meaningful experiences and spiritual growth.
+                            </p>
+                            <div class="service-info mb-3">
+                                <i class="fas fa-list me-2"></i>
+                                <strong><?php echo $count; ?> category<?php echo $count != 1 ? 's' : ''; ?> Available</strong>
+                            </div>
+                            <a href="ClassPage.php?id=<?php echo $class_item['id']; ?>&title=<?php echo urlencode($class_item['title']); ?>" class="btn btn-primary">
+                                <i class="fas fa-arrow-right me-2"></i>View category
+                            </a>
                         </div>
                     </div>
                 </div>
-            </div>
+            <?php 
+                endwhile;
+            else:
+                // Fallback to default services if no classes in database
+            ?>
+                
+            <?php endif; ?>
         </div>
     </div>
 </section>
@@ -104,24 +96,50 @@
 <!-- About Preview Section -->
 <section class="content-section bg-light">
     <div class="container">
+        <?php
+        // Get content data for about page (pageID = 1) - get first item for preview
+        $about_query = "SELECT * FROM content WHERE pageID = 1 AND client_id = $clientID ORDER BY id ASC LIMIT 1";
+        $about_result = $conn->query($about_query);
+        $about_item = $about_result ? $about_result->fetch_assoc() : null;
+        ?>
+        
         <div class="row align-items-center">
             <div class="col-lg-6">
-                <h2 class="section-title text-start">About Our Community</h2>
-                <p class="lead">
-                    We are a welcoming community of believers dedicated to serving God and our neighbors. 
-                    Our mission is to spread the love of Christ through worship, fellowship, and service.
-                </p>
-                <p>
-                    Founded on the principles of faith, hope, and love, we strive to create an environment 
-                    where everyone can grow spiritually and find their place in God's family.
-                </p>
-                <a href="about.php" class="btn btn-primary">
-                    <i class="fas fa-arrow-right me-2"></i>Learn More About Us
-                </a>
+                <?php if($about_item): ?>
+                    <h2 class="section-title text-start"><?php echo htmlspecialchars($about_item['title']); ?></h2>
+                    <div class="content-body">
+                        <?php echo nl2br(htmlspecialchars($about_item['content'])); ?>
+                    </div>
+                    <?php if(!empty($about_item['link']) && !empty($about_item['linkText'])): ?>
+                        <a href="<?php echo htmlspecialchars($about_item['link']); ?>" class="btn btn-primary">
+                            <i class="fas fa-arrow-right me-2"></i><?php echo htmlspecialchars($about_item['linkText']); ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="about.php" class="btn btn-primary">
+                            <i class="fas fa-arrow-right me-2"></i>Learn More About Us
+                        </a>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <!-- Fallback content if no database content -->
+                    <h2 class="section-title text-start">About Our Community</h2>
+                    <p class="lead">
+                        We are a welcoming community of believers dedicated to serving God and our neighbors. 
+                        Our mission is to spread the love of Christ through worship, fellowship, and service.
+                    </p>
+                    <p>
+                        Founded on the principles of faith, hope, and love, we strive to create an environment 
+                        where everyone can grow spiritually and find their place in God's family.
+                    </p>
+                    <a href="about.php" class="btn btn-primary">
+                        <i class="fas fa-arrow-right me-2"></i>Learn More About Us
+                    </a>
+                <?php endif; ?>
             </div>
             <div class="col-lg-6">
-                <?php if(isset($general_data['background_img2']) && !empty($general_data['background_img2'])): ?>
-                    <img src="church/uploads/<?php echo htmlspecialchars($general_data['background_img2']); ?>" alt="Community" class="img-fluid rounded-3 shadow">
+                <?php if($about_item && !empty($about_item['img'])): ?>
+                    <img src="church/uploads/<?php echo htmlspecialchars($about_item['img']); ?>" alt="<?php echo htmlspecialchars($about_item['title']); ?>" class="img-fluid rounded-3 shadow">
+                <?php elseif(isset($clientInfo['background_img2']) && !empty($clientInfo['background_img2'])): ?>
+                    <img src="church/uploads/<?php echo htmlspecialchars($clientInfo['background_img2']); ?>" alt="Community" class="img-fluid rounded-3 shadow">
                 <?php else: ?>
                     <img src="img/children.png" alt="Community" class="img-fluid rounded-3 shadow">
                 <?php endif; ?>
