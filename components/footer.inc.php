@@ -49,6 +49,11 @@
                         </a>
                     </li>
                     <li class="mb-2">
+                        <a href="events.php">
+                            <i class="fas fa-calendar-alt me-2"></i>Events
+                        </a>
+                    </li>
+                    <li class="mb-2">
                         <a href="gallery.php">
                             <i class="fas fa-images me-2"></i>Gallery
                         </a>

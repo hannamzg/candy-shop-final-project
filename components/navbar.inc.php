@@ -43,7 +43,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                            ($current_page == 'gallery' && $page_name == 'photogallery') ||
                            ($current_page == 'news' && $page_name == 'news') ||
                            ($current_page == 'contact' && $page_name == 'contactus') ||
-                           ($current_page == 'questions' && $page_name == 'questions')) {
+                           ($current_page == 'questions' && $page_name == 'questions') ||
+                           ($current_page == 'events' && $page_name == 'events')) {
                             $is_active = true;
                         }
                         ?>
@@ -58,6 +59,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                                 elseif(strpos(strtolower($item['page_name']), 'contact') !== false) $icon = 'fas fa-envelope';
                                 elseif(strpos(strtolower($item['page_name']), 'service') !== false) $icon = 'fas fa-hands-praying';
                                 elseif(strpos(strtolower($item['page_name']), 'question') !== false) $icon = 'fas fa-question-circle';
+                                elseif(strpos(strtolower($item['page_name']), 'event') !== false) $icon = 'fas fa-calendar-alt';
                                 ?>
                                 <i class="<?php echo $icon; ?> me-1"></i><?php echo htmlspecialchars($item['page_name']); ?>
                             </a>
@@ -68,6 +70,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($current_page == 'about') ? 'active fw-bold' : ''; ?>" href="about.php">
                             <i class="fas fa-info-circle me-1"></i>About Us
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo ($current_page == 'events') ? 'active fw-bold' : ''; ?>" href="events.php">
+                            <i class="fas fa-calendar-alt me-1"></i>Events
                         </a>
                     </li>
                     <li class="nav-item">
