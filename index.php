@@ -349,7 +349,7 @@ include('components/navbar.inc.php');
 .facebook-iframe-wrapper iframe {
     max-width: 100%;
     height: auto;
-    min-height: 400px;
+    min-height: 600px;
 }
 
 /* Responsive */

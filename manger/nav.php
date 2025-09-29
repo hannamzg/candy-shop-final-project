@@ -15,7 +15,6 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
 }
 ?>
 
-<link rel="icon" href="../img/CrossIcon.png">
 <meta name="robots" content="noindex, nofollow">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -230,8 +229,8 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
 
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
-        <h3><i class="fas fa-church"></i> Admin Panel</h3>
-        <p>Church Management System</p>
+        <h3></i> Admin Panel</h3>
+        <p>Management System</p>
     </div>
     
     <nav class="nav-menu">
@@ -276,10 +275,6 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
             <a href="../manger/calendarMange.php" class="nav-item">
                 <i class="fas fa-calendar-alt"></i>
                 <span class="nav-text">Calendar Management</span>
-            </a>
-            <a href="../manger/SetClientNavbar.php" class="nav-item">
-                <i class="fas fa-bars"></i>
-                <span class="nav-text">Navigation Settings</span>
             </a>
             <a href="../manger/SetGeneral.php" class="nav-item">
                 <i class="fas fa-cog"></i>

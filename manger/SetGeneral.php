@@ -104,7 +104,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>General Settings - Church Management</title>
-    <link rel="icon" href="../img/CrossIcon.png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .form-container {
@@ -176,6 +175,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
         .form-group textarea {
             width: 100%;
             padding: 12px 15px;
@@ -187,11 +188,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: #667eea;
             background: #fff;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Special styling for email input */
+        .form-group input[type="email"] {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #28a745;
+        }
+
+        .form-group input[type="email"]:focus {
+            border-left-color: #28a745;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+        }
+
+        /* Special styling for phone input */
+        .form-group input[type="tel"] {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #007bff;
+        }
+
+        .form-group input[type="tel"]:focus {
+            border-left-color: #007bff;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        /* Input wrapper styling */
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            color: #6c757d;
+            z-index: 2;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper input {
+            padding-left: 45px !important;
+        }
+
+        .input-wrapper input:focus + .input-icon,
+        .input-wrapper:focus-within .input-icon {
+            color: #667eea;
+        }
+
+        /* Special icon colors for email and phone */
+        .input-wrapper input[type="email"]:focus + .input-icon,
+        .input-wrapper:focus-within input[type="email"] + .input-icon {
+            color: #28a745;
+        }
+
+        .input-wrapper input[type="tel"]:focus + .input-icon,
+        .input-wrapper:focus-within input[type="tel"] + .input-icon {
+            color: #007bff;
         }
 
         .form-group textarea {
@@ -388,13 +451,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
 
                         <div class="form-group">
-                            <label for="phone">Phone Number</label>
-                            <input type="tel" name="phone" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Enter phone number">
+                            <label for="phone">
+                                <i class="fas fa-phone me-2"></i>Phone Number
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-phone input-icon"></i>
+                                <input type="tel" name="phone" value="<?php echo htmlspecialchars($phone); ?>" placeholder="Enter phone number">
+                            </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Enter email address">
+                            <label for="email">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" placeholder="Enter email address">
+                            </div>
                         </div>
 
                         <div class="form-group">
