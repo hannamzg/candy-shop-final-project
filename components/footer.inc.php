@@ -67,26 +67,7 @@
             </div>
 
             <!-- Services -->
-            <div class="col-lg-3 col-md-6 mb-4">
-                <h5>Services</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2">
-                        <i class="fas fa-calendar-alt me-2"></i>Sunday Service
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-pray me-2"></i>Prayer Meetings
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-users me-2"></i>Bible Study
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-child me-2"></i>Youth Programs
-                    </li>
-                    <li class="mb-2">
-                        <i class="fas fa-heart me-2"></i>Community Outreach
-                    </li>
-                </ul>
-            </div>
+            
 
             <!-- Contact Info -->
             <div class="col-lg-3 col-md-6 mb-4">

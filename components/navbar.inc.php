@@ -42,7 +42,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                            ($current_page == 'about' && $page_name == 'aboutus') ||
                            ($current_page == 'gallery' && $page_name == 'photogallery') ||
                            ($current_page == 'news' && $page_name == 'news') ||
-                           ($current_page == 'contact' && $page_name == 'contactus')) {
+                           ($current_page == 'contact' && $page_name == 'contactus') ||
+                           ($current_page == 'questions' && $page_name == 'questions')) {
                             $is_active = true;
                         }
                         ?>
@@ -56,6 +57,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                                 elseif(strpos(strtolower($item['page_name']), 'news') !== false) $icon = 'fas fa-newspaper';
                                 elseif(strpos(strtolower($item['page_name']), 'contact') !== false) $icon = 'fas fa-envelope';
                                 elseif(strpos(strtolower($item['page_name']), 'service') !== false) $icon = 'fas fa-hands-praying';
+                                elseif(strpos(strtolower($item['page_name']), 'question') !== false) $icon = 'fas fa-question-circle';
                                 ?>
                                 <i class="<?php echo $icon; ?> me-1"></i><?php echo htmlspecialchars($item['page_name']); ?>
                             </a>
@@ -81,6 +83,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($current_page == 'contact') ? 'active fw-bold' : ''; ?>" href="contact.php">
                             <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo ($current_page == 'questions') ? 'active fw-bold' : ''; ?>" href="questions.php">
+                            <i class="fas fa-question-circle me-1"></i>Questions
                         </a>
                     </li>
                 <?php endif; ?>
