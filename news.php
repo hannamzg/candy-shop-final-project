@@ -58,36 +58,6 @@ while($row = $content_result->fetch_assoc()) {
 
 
 
-<!-- Newsletter Signup Section -->
-<section class="content-section bg-primary text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4">Stay Connected</h2>
-                <p class="lead mb-4">
-                    Subscribe to our newsletter to receive the latest news, events, and updates 
-                    directly in your inbox.
-                </p>
-                <form class="newsletter-form">
-                    <div class="row g-3 justify-content-center">
-                        <div class="col-md-6">
-                            <input type="email" class="form-control form-control-lg" placeholder="Enter your email address" required>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-light btn-lg w-100">
-                                <i class="fas fa-envelope me-2"></i>Subscribe
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <p class="mt-3 small">
-                    <i class="fas fa-shield-alt me-2"></i>
-                    We respect your privacy and will never share your email address.
-                </p>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Custom News Styles -->
 <style>

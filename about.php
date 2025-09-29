@@ -139,27 +139,5 @@ while($row = $content_result->fetch_assoc()) {
 </section>
 
 
-<!-- Call to Action -->
-<section class="content-section bg-primary text-white">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center">
-                <h2 class="display-5 fw-bold mb-4">Join Our Community</h2>
-                <p class="lead mb-4">
-                    We invite you to be part of our church family. Whether you're new to faith or have been walking with God for years, 
-                    there's a place for you here.
-                </p>
-                <div class="cta-buttons">
-                    <a href="contact.php" class="btn btn-light btn-lg me-3">
-                        <i class="fas fa-envelope me-2"></i>Contact Us
-                    </a>
-                    <a href="index.php" class="btn btn-outline-light btn-lg">
-                        <i class="fas fa-home me-2"></i>Visit Our Homepage
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <?php require('components/footer.inc.php'); ?>
