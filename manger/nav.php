@@ -285,6 +285,10 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
                 <i class="fas fa-cog"></i>
                 <span class="nav-text">General Settings</span>
             </a>
+            <a href="../manger/manageUsers.php" class="nav-item">
+                <i class="fas fa-users-cog"></i>
+                <span class="nav-text">Manage Users</span>
+            </a>
         </div>
 
         <div class="nav-section">
