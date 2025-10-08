@@ -256,6 +256,10 @@ if (!isset($_SESSION['adminUserName']) || empty($_SESSION['adminUserName'])) {
                 <i class="fas fa-question-circle"></i>
                 <span class="nav-text">Questions & Answers</span>
             </a>
+            <a href="../manger/productManage.php" class="nav-item">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="nav-text">Product Management</span>
+            </a>
         </div>
 
         <div class="nav-section">

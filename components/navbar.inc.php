@@ -44,7 +44,8 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                            ($current_page == 'news' && $page_name == 'news') ||
                            ($current_page == 'contact' && $page_name == 'contactus') ||
                            ($current_page == 'questions' && $page_name == 'questions') ||
-                           ($current_page == 'events' && $page_name == 'events')) {
+                           ($current_page == 'events' && $page_name == 'events') ||
+                           ($current_page == 'products' && $page_name == 'products')) {
                             $is_active = true;
                         }
                         ?>
@@ -60,6 +61,7 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                                 elseif(strpos(strtolower($item['page_name']), 'service') !== false) $icon = 'fas fa-hands-praying';
                                 elseif(strpos(strtolower($item['page_name']), 'question') !== false) $icon = 'fas fa-question-circle';
                                 elseif(strpos(strtolower($item['page_name']), 'event') !== false) $icon = 'fas fa-calendar-alt';
+                                elseif(strpos(strtolower($item['page_name']), 'product') !== false) $icon = 'fas fa-shopping-bag';
                                 ?>
                                 <i class="<?php echo $icon; ?> me-1"></i><?php echo htmlspecialchars($item['page_name']); ?>
                             </a>
@@ -95,6 +97,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     <li class="nav-item">
                         <a class="nav-link <?php echo ($current_page == 'questions') ? 'active fw-bold' : ''; ?>" href="questions.php">
                             <i class="fas fa-question-circle me-1"></i>Questions
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo ($current_page == 'products') ? 'active fw-bold' : ''; ?>" href="products.php">
+                            <i class="fas fa-shopping-bag me-1"></i>Products
                         </a>
                     </li>
                 <?php endif; ?>

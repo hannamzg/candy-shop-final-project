@@ -64,6 +64,11 @@
                         </a>
                     </li>
                     <li class="mb-2">
+                        <a href="products.php">
+                            <i class="fas fa-shopping-bag me-2"></i>Products
+                        </a>
+                    </li>
+                    <li class="mb-2">
                         <a href="contact.php">
                             <i class="fas fa-envelope me-2"></i>Contact
                         </a>

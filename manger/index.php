@@ -27,6 +27,10 @@ $stats['slider_images'] = $slider_count;
 $class_content_count = $conn->query("SELECT COUNT(*) as count FROM classpage WHERE client_id = $clientID")->fetch_assoc()['count'];
 $stats['class_content'] = $class_content_count;
 
+// Count total products
+$product_count = $conn->query("SELECT COUNT(*) as count FROM products WHERE client_id = $clientID")->fetch_assoc()['count'];
+$stats['products'] = $product_count;
+
 // Get recent activities (last 5 content items)
 $recent_content = $conn->query("SELECT title, created_at FROM content WHERE client_id = $clientID ORDER BY created_at DESC LIMIT 5");
 $recent_activities = [];
@@ -331,6 +335,16 @@ while ($row = $recent_content->fetch_assoc()) {
                 <h3 class="stat-number"><?php echo $stats['class_content']; ?></h3>
                 <p class="stat-label">Class Content Items</p>
             </div>
+
+            <div class="stat-card success">
+                <div class="stat-header">
+                    <div class="stat-icon success">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                </div>
+                <h3 class="stat-number"><?php echo $stats['products']; ?></h3>
+                <p class="stat-label">Products</p>
+            </div>
         </div>
 
         <div class="quick-actions">
@@ -358,6 +372,10 @@ while ($row = $recent_content->fetch_assoc()) {
                 <a href="calendarMange.php" class="action-btn">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Calendar Events</span>
+                </a>
+                <a href="productManage.php" class="action-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Product Management</span>
                 </a>
                 <a href="SetGeneral.php" class="action-btn">
                     <i class="fas fa-cog"></i>
