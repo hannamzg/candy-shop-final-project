@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2025 at 05:00 PM
+-- Generation Time: Oct 08, 2025 at 08:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -39,7 +39,9 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`admin_Id`, `username`, `password`, `created_at`) VALUES
-(1, 'admin', '$2y$10$bNNw5SSafSeMrNVH0k2XR.BAcUcrc700ZTpOH5AaivPtvlm1yzh2W', '2025-09-29 12:53:21');
+(1, 'admin', '$2y$10$bNNw5SSafSeMrNVH0k2XR.BAcUcrc700ZTpOH5AaivPtvlm1yzh2W', '2025-09-29 12:53:21'),
+(2, 'hanna', '$2y$10$3Ufh7NW.FjQqYr6jrKzkZetboYacKDzZqxHUvL4ODMToWGAxXYNUm', '2025-10-08 06:28:30'),
+(3, 'test', '$2y$10$Wrb8nf9SYoMHjs2BruLtH.1XodOpflvCy5r2wclrLPIZMXVczjgSq', '2025-10-08 06:28:36');
 
 -- --------------------------------------------------------
 
@@ -195,7 +197,7 @@ CREATE TABLE `general_elements` (
 --
 
 INSERT INTO `general_elements` (`id`, `ClientID`, `client_name`, `phone`, `facebook`, `icon`, `background_img1`, `background_img2`, `background_img3`, `description`, `title_page2`, `title_page3`) VALUES
-(1, 1, 'Candy Shop', '', 'https://www.facebook.com/TomoCandyshop/', '20250929154536_6ce54b73-7404-419f-94d4-921bde3b6e19.png', '20250924005634_6ce54b73-7404-419f-94d4-921bde3b6e19.png', '20250929163833_istockphoto-1490797933-612x612.jpg', '20250924005634_Screenshot 2025-09-23 004941.png', 'At Candy Shop, we bring you the best selection of chocolates, gummies, lollipops, and classic sweets that everyone loves. Whether you’re looking for a quick treat, a gift, or something to brighten your day, Candy Shop is the place where happiness tastes sweet.', 'test2', 'test3');
+(1, 1, 'Candy Shop', '', 'https://www.facebook.com/TomoCandyshop/', '20250929154536_6ce54b73-7404-419f-94d4-921bde3b6e19.png', '20250929163833_istockphoto-1490797933-612x612.jpg', '20250929163833_istockphoto-1490797933-612x612.jpg', '20250924005634_Screenshot 2025-09-23 004941.png', 'At Candy Shop, we bring you the best selection of chocolates, gummies, lollipops, and classic sweets that everyone loves. Whether you’re looking for a quick treat, a gift, or something to brighten your day, Candy Shop is the place where happiness tastes sweet.', 'test2', 'test3');
 
 -- --------------------------------------------------------
 
@@ -256,6 +258,66 @@ INSERT INTO `pages` (`id`, `pageName`) VALUES
 (3, 'News'),
 (4, 'Contact'),
 (5, 'Question');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` text DEFAULT NULL,
+  `price` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `photo` varchar(255) DEFAULT NULL,
+  `category` varchar(100) DEFAULT NULL,
+  `stock_quantity` int(11) DEFAULT 0,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `featured` tinyint(1) NOT NULL DEFAULT 0,
+  `weight` varchar(50) DEFAULT NULL,
+  `dimensions` varchar(100) DEFAULT NULL,
+  `material` varchar(100) DEFAULT NULL,
+  `color` varchar(50) DEFAULT NULL,
+  `tags` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `client_id`, `name`, `description`, `price`, `photo`, `category`, `stock_quantity`, `is_active`, `featured`, `weight`, `dimensions`, `material`, `color`, `tags`, `created_at`, `updated_at`) VALUES
+(6, 1, 'Battle Bites', 'Battle Bites', 22.60, '1759905842_images.jpg', 'soger canday', 5, 1, 1, '2', NULL, 'soger', '', 'soger canday', '2025-10-08 06:44:02', '2025-10-08 06:44:02'),
+(7, 1, 'Trooper Treats', 'Trooper Treats', 5.00, '1759906013_images (1).jpg', 'soger canday', 2, 1, 1, '4', NULL, 'soger', 'white', 'Trooper Treats', '2025-10-08 06:46:53', '2025-10-08 06:46:53'),
+(8, 1, 'sugar candy lollipop', 'sugar candy lollipop', 18.00, '1759906148_sugar-candy-lollipop-GJMPFA.jpg', 'candy', 58, 1, 1, '', NULL, 'sugar candy lollipop', 'colors', 'sugar candy lollipop', '2025-10-08 06:49:08', '2025-10-08 06:49:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_categories`
+--
+
+CREATE TABLE `product_categories` (
+  `id` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text DEFAULT NULL,
+  `icon` varchar(100) DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 1,
+  `sort_order` int(11) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_categories`
+--
+
+INSERT INTO `product_categories` (`id`, `client_id`, `name`, `description`, `icon`, `is_active`, `sort_order`, `created_at`) VALUES
+(9, 1, 'soger canday', 'Rock candy or sugar candy, also called rock sugar or crystal sugar, is a type of confection composed of relatively large sugar crystals.\r\n', 'none', 1, 1, '2025-10-08 06:42:07'),
+(10, 1, 'candy', 'candy candy candy candy', 'candy', 1, 2, '2025-10-08 06:48:20');
 
 -- --------------------------------------------------------
 
@@ -374,6 +436,24 @@ ALTER TABLE `pages`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`),
+  ADD KEY `category` (`category`),
+  ADD KEY `is_active` (`is_active`),
+  ADD KEY `featured` (`featured`);
+
+--
+-- Indexes for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`),
+  ADD KEY `is_active` (`is_active`);
+
+--
 -- Indexes for table `questions`
 --
 ALTER TABLE `questions`
@@ -393,7 +473,7 @@ ALTER TABLE `weekly_program`
 -- AUTO_INCREMENT for table `admins`
 --
 ALTER TABLE `admins`
-  MODIFY `admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `class`
@@ -456,6 +536,18 @@ ALTER TABLE `pages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
@@ -482,6 +574,18 @@ ALTER TABLE `classpage`
 --
 ALTER TABLE `client_navbar`
   ADD CONSTRAINT `client_navbar_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `product_categories`
+--
+ALTER TABLE `product_categories`
+  ADD CONSTRAINT `product_categories_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
